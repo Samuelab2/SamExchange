@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import getAssets from '@/api'
+import { getAssets } from '@/api'
 import SxAssetsTable from '@/components/SxAssetsTable'
 
 export default {
