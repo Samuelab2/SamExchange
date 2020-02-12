@@ -15,14 +15,26 @@
     </thead>
     <tbody>
       <tr
+        v-for="a in assets"
+        :key="a.id"
         class="border-b border-gray-200 hover:bg-gray-100 hover:bg-orange-100"
       >
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td class="w-20">
+          <img
+            :src="
+              `https://static.coincap.io/assets/icons/${a.symbol.toLowerCase()}@2x.png`
+            "
+            :alt="a.name"
+          />
+        </td>
+        <td>
+          <b>#{{ a.rank }}</b>
+        </td>
+        <td>{{ a.name }}</td>
+        <td>${{ Math.ceil(a.priceUsd) }}</td>
+        <td>${{ Math.ceil(a.marketCapUsd) }}</td>
+        <td>{{ Math.ceil(a.changePercent24Hr) }}%</td>
+
         <td class="hidden sm:block"></td>
       </tr>
     </tbody>
@@ -31,23 +43,23 @@
 
 <script>
 export default {
-  name: "SxAssetsTable",
+  name: 'SxAssetsTable',
   props: {
     assets: {
       type: Array,
       default: () => []
     }
   }
-};
+}
 </script>
 
 <style scoped>
 .up::before {
-  content: "👆";
+  content: '👆';
 }
 
 .down::before {
-  content: "👇";
+  content: '👇';
 }
 
 td {
