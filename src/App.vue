@@ -1,19 +1,17 @@
 <template>
   <main>
     <sx-header />
-    <SxAssetsTable />
+    <router-view class="container px-5 sm:px-20 py-20 flex justify-center" />
   </main>
 </template>
 
 <script>
 import SxHeader from "@/components/SxHeader";
-import SxAssetsTable from "@/components/SxAssetsTable";
 
 export default {
   name: "App",
   components: {
-    SxHeader,
-    SxAssetsTable
+    SxHeader
   }
 };
 </script>
