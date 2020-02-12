@@ -1,17 +1,19 @@
 <template>
-  <div id="app" class="bg-blue-400">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+  <main>
+    <sx-header />
+    <SxAssetsTable />
+  </main>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import SxHeader from "@/components/SxHeader";
+import SxAssetsTable from "@/components/SxAssetsTable";
 
 export default {
   name: "App",
   components: {
-    HelloWorld
+    SxHeader,
+    SxAssetsTable
   }
 };
 </script>
