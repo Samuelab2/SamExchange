@@ -6,4 +6,22 @@ function getAssets() {
     .then(res => res.data)
 }
 
-export default getAssets
+function getAsset(coin) {
+  return fetch(`${url}/assets/${coin}`)
+    .then(response => response.json())
+    .then(res => res.data)
+}
+
+function getAssetHistory(coin) {
+  const now = new Date()
+  const end = now.getTime()
+  now.setDate(now.getDate() - 1)
+  const start = now.getTime()
+  return fetch(
+    `${url}/assets/${coin}/history?interval=h1&start=${start}&end=${end}`
+  )
+    .then(response => response.json())
+    .then(res => res.data)
+}
+
+export { getAssets, getAsset, getAssetHistory }
