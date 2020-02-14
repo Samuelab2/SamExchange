@@ -1,6 +1,13 @@
 <template>
   <div class="flex-col">
-    <template v-if="asset.id">
+    <div class="flex justify-center">
+      <bounce-loader
+        :loading="isLoading"
+        :color="'#68d391'"
+        :size="100"
+      ></bounce-loader>
+    </div>
+    <template v-if="!isLoading">
       <div class="flex flex-col sm:flex-row justify-around items-center">
         <div class="flex flex-col items-center">
           <img
@@ -44,7 +51,6 @@
             </li>
           </ul>
         </div>
-
         <div class="my-10 sm:mt-0 flex flex-col justify-center text-center">
           <button
             class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
@@ -65,20 +71,59 @@
           <span class="text-xl"></span>
         </div>
       </div>
+      <line-chart
+        class="my-10"
+        :colors="['orange']"
+        :min="min"
+        :max="max"
+        :data="history.map(h => [h.date, parseFloat(h.priceUsd).toFixed(2)])"
+      />
+
+      <h3 class="text-xl my-10">Mejores Ofertas de Cambio</h3>
+      <table>
+        <tr
+          v-for="m in markets"
+          :key="`${m.exchangeId}-${m.priceUsd}`"
+          class="border-b"
+        >
+          <td>
+            <b>{{ m.exchangeId }}</b>
+          </td>
+          <td>{{ m.priceUsd | dollar }}</td>
+          <td>{{ m.baseSymbol }} / {{ m.quoteSymbol }}</td>
+          <td>
+            <sx-button
+              :isLoading="m.isLoading || false"
+              v-if="!m.url"
+              @custom-click="getWebSite(m)"
+            >
+              <slot>Obtener Link</slot>
+            </sx-button>
+            <a v-else class="hover:underline text-green-600" target="_blanck">
+              {{ m.url }}
+            </a>
+          </td>
+        </tr>
+      </table>
     </template>
   </div>
 </template>
 
 <script>
-import { getAsset, getAssetHistory } from '@/api'
+import SxButton from '@/components/SxButton'
+import { getAsset, getAssetHistory, getMarkets, getExchange } from '@/api'
 
 export default {
   name: 'CoinDetail',
 
+  components: { SxButton },
+
   data() {
     return {
+      isLoading: false,
       asset: {},
-      history: []
+      history: [],
+      markets: []
     }
   },
   computed: {
@@ -104,15 +149,29 @@ export default {
   },
 
   methods: {
+    getWebSite(exchange) {
+      this.$set(exchange, 'isLoading', true)
+      return getExchange(exchange.exchangeId)
+        .then(res => {
+          this.$set(exchange, 'url', res.exchangeUrl)
+        })
+        .finally(() => {
+          this.$set(exchange, 'isLoading', false)
+        })
+    },
+
     getCoin() {
       const id = this.$route.params.id
 
-      Promise.all([getAsset(id), getAssetHistory(id)]).then(
-        ([asset, history]) => {
+      this.isLoading = true
+
+      Promise.all([getAsset(id), getAssetHistory(id), getMarkets(id)])
+        .then(([asset, history, markets]) => {
           this.asset = asset
           this.history = history
-        }
-      )
+          this.markets = markets
+        })
+        .finally(() => (this.isLoading = false))
     }
   }
 }

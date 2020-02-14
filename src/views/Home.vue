@@ -1,6 +1,11 @@
 <template>
   <div>
-    <sx-assets-table :assets="assets" />
+    <bounce-loader
+      :loading="isLoading"
+      :color="'#68d391'"
+      :size="100"
+    ></bounce-loader>
+    <sx-assets-table v-if="isLoading === false" :assets="assets" />
   </div>
 </template>
 
@@ -14,12 +19,16 @@ export default {
 
   data() {
     return {
+      isLoading: false,
       assets: []
     }
   },
 
   created() {
-    getAssets().then(assets => (this.assets = assets))
+    this.isLoading = true
+    getAssets()
+      .then(assets => (this.assets = assets))
+      .finally(() => (this.isLoading = false))
   }
 }
 </script>
