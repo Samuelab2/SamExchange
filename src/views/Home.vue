@@ -2,7 +2,7 @@
   <div>
     <bounce-loader
       :loading="isLoading"
-      :color="'#68d391'"
+      :color="'#2a4365'"
       :size="100"
     ></bounce-loader>
     <sx-assets-table v-if="isLoading === false" :assets="assets" />

@@ -3,7 +3,7 @@
     <div class="flex justify-center">
       <bounce-loader
         :loading="isLoading"
-        :color="'#68d391'"
+        :color="'#2a4365'"
         :size="100"
       ></bounce-loader>
     </div>
@@ -54,7 +54,7 @@
         <div class="my-10 sm:mt-0 flex flex-col justify-center text-center">
           <button
             @click="toggleConverter"
-            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
           >
             {{ fromUsd ? `USD a ${asset.symbol}` : `${asset.symbol} a USD` }}
           </button>
@@ -104,7 +104,7 @@
             >
               <slot>Obtener Link</slot>
             </sx-button>
-            <a v-else class="hover:underline text-green-600" target="_blanck">
+            <a v-else class="hover:underline text-blue-600" target="_blanck">
               {{ m.url }}
             </a>
           </td>

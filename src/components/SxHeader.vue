@@ -1,13 +1,15 @@
 <template>
   <header class="shadow w-screen">
     <nav>
-      <nav class="flex items-center justify-between flex-wrap bg-green-400 p-6">
+      <nav
+        class="flex items-center justify-between flex-wrap bg-indigo-300 p-6"
+      >
         <div class="flex items-center flex-shrink-0 text-white mr-6">
           <sx-icon class="mr-2" />
           <router-link
             :to="{ name: 'home' }"
             class="font-semibold text-xl tracking-tight"
-            >PlatziExchange</router-link
+            >SamExchange</router-link
           >
         </div>
         <div
@@ -18,7 +20,7 @@
               v-for="l in links"
               :key="l.title"
               :to="l.to"
-              class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
+              class="block mt-4 lg:inline-block lg:mt-0 text-blue-700 hover:text-white mr-4"
             >
               {{ l.title }}</router-link
             >
